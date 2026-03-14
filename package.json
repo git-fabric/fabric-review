@@ -1,0 +1,50 @@
+{
+  "name": "@git-fabric/review",
+  "version": "0.1.0",
+  "description": "Automated PR review engine for the git-fabric ecosystem. Analyzes diffs, detects security patterns, and surfaces CVE exposure on pull requests.",
+  "author": "git-fabric",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/git-fabric/fabric-review.git"
+  },
+  "keywords": [
+    "code-review",
+    "pull-request",
+    "security",
+    "fabric",
+    "mcp",
+    "cve",
+    "static-analysis",
+    "github-actions"
+  ],
+  "type": "module",
+  "bin": {
+    "fabric-review": "./bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "octokit": "^4.0.0",
+    "@octokit/plugin-retry": "^7.2.1",
+    "@octokit/plugin-throttling": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.18"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts"
+}
