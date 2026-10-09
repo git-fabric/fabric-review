@@ -7,9 +7,9 @@
 
 import { createAdaptersFromEnv } from "./adapters/env.js";
 import type { FabricApp, FabricTool, ReviewFinding, ReviewResult, ReviewVerdict, DiffFile, PullRequestRef } from "./types.js";
-import { securityAnalyzer, dependencyAnalyzer, dockerfileAnalyzer } from "./analyzers/index.js";
+import { securityAnalyzer, dependencyAnalyzer, dockerfileAnalyzer, toolContractAnalyzer } from "./analyzers/index.js";
 
-const ANALYZERS = [securityAnalyzer, dependencyAnalyzer, dockerfileAnalyzer];
+const ANALYZERS = [securityAnalyzer, dependencyAnalyzer, dockerfileAnalyzer, toolContractAnalyzer];
 
 export async function createApp(): Promise<FabricApp> {
   const { github, repos: managedRepos } = createAdaptersFromEnv();
@@ -19,6 +19,7 @@ export async function createApp(): Promise<FabricApp> {
       {
         name: "review_pr",
         description: "Analyze a pull request for security issues, dependency risks, and code quality concerns. Posts review comments to the PR.",
+        annotations: { readOnlyHint: false, destructiveHint: false },
         inputSchema: {
           type: "object",
           properties: {
@@ -116,6 +117,7 @@ export async function createApp(): Promise<FabricApp> {
       {
         name: "review_diff",
         description: "Analyze a raw diff string for security issues without connecting to GitHub. Useful for local pre-commit review.",
+        annotations: { readOnlyHint: true },
         inputSchema: {
           type: "object",
           properties: {
@@ -153,6 +155,7 @@ export async function createApp(): Promise<FabricApp> {
       {
         name: "review_scan_repos",
         description: "Scan all open PRs across managed repos and return a summary of review findings.",
+        annotations: { readOnlyHint: true },
         inputSchema: {
           type: "object",
           properties: {

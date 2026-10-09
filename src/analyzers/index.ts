@@ -5,3 +5,4 @@
 export { securityAnalyzer } from "./security.js";
 export { dependencyAnalyzer } from "./dependency.js";
 export { dockerfileAnalyzer } from "./dockerfile.js";
+export { toolContractAnalyzer } from "./tool-contract.js";

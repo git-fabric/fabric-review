@@ -27,6 +27,7 @@ PR opened/updated
       +--- security analyzer ---- secrets, injection, XSS, SQL
       +--- dependency analyzer --- manifest changes, lockfile integrity
       +--- dockerfile analyzer --- unpinned images, root user, build secrets
+      +--- tool-contract analyzer  MCP annotations, description length
       +--- (planned) cve analyzer -- eagle-scout integration
       |
       v
@@ -77,6 +78,17 @@ Reviews Dockerfile changes for container security:
 - Secrets baked into `ARG`/`ENV` directives
 - Missing version pinning
 
+### Tool contract
+
+Reviews fabric app tool definitions that the PR adds or changes, so
+[`fabric.resolve`](https://github.com/git-fabric/adr/blob/main/docs/AI-ADR-013-fabric-resolve-looking-glass.md)
+can trust them:
+
+- Missing MCP `annotations` (HIGH): an unannotated tool is treated as a write
+- Description shorter than 20 characters (MEDIUM): intents are matched against descriptions
+
+Works from the diff alone; a tool whose definition is cut off at a hunk boundary is skipped.
+
 ### CVE (planned)
 
 Integration with `eagle-scout` for container image CVE scanning:
@@ -121,6 +133,7 @@ fabric-review/
       security.ts          Secret/injection/XSS detection
       dependency.ts        Manifest and lockfile analysis
       dockerfile.ts        Dockerfile best practices
+      tool-contract.ts     Fabric tool annotations and descriptions
       index.ts             Analyzer registry
     app.ts                 FabricApp factory (createApp)
     types.ts               Shared type definitions
